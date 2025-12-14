@@ -21,7 +21,8 @@ public static void main(String[] args) {
     System.out.println("Packing density: " + testInstance.getPackingDensity());
 
     System.out.println("-------DRAW RECTANGLES-----------");
-    for (Rectangle r : testInstance.getRectangles()) {
+    Algorithm algorithm = new Algorithm(testInstance.getRectangles(), testInstance.getBoxLength());
+    for (Rectangle r : algorithm.getRectangles()) {
         r.draw();
         System.out.println();
     }
