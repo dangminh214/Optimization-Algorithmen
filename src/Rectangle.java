@@ -1,8 +1,8 @@
 public class Rectangle {
-   private static int maxX;
-    private static int maxY;
-    private static int minX;
-    private static int minY;
+    private static int maxWidth;
+    private static int maxHeight;
+    private static int minWidth;
+    private static int minHeight;
 
     private static boolean limitsInitialized = false;
 
@@ -11,22 +11,22 @@ public class Rectangle {
     private int y;
     private int area;
 
-    public static void initializeLimits(int userMinX, int userMinY, int userMaxX, int userMaxY) {
+    public static void initializeLimits(int userMinWidth, int userMinHeight, int userMaxWidth, int userMaxHeight) {
         if (limitsInitialized) {
             throw new IllegalStateException("Limits have already been initialized");
         }
 
-        if (userMinX >= userMaxX) {
+        if (userMinWidth >= userMaxWidth) {
             throw new IllegalArgumentException("minX must be less than maxX");
         }
-        if (userMinY >= userMaxY) {
+        if (userMinHeight >= userMaxHeight) {
             throw new IllegalArgumentException("minY must be less than maxY");
         }
 
-        minX = userMinX;
-        minY = userMinY;
-        maxX = userMaxX;
-        maxY = userMaxY;
+        minWidth = userMinWidth;
+        minHeight = userMinHeight;
+        maxWidth = userMaxWidth;
+        maxHeight = userMaxHeight;
         limitsInitialized = true;
     }
 
@@ -49,18 +49,18 @@ public class Rectangle {
 
     public static void validateX(int x) {
         validateLimitsInitialized();
-        if (x < minX || x > maxX) {
+        if (x < minWidth || x > maxWidth) {
             throw new IllegalArgumentException(
-                    String.format("x must be between %d and %d, got %d", minX, maxX, x)
+                    String.format("x must be between %d and %d, got %d", minWidth, maxWidth, x)
             );
         }
     }
 
     public static void validateY(int y) {
         validateLimitsInitialized();
-        if (y < minY || y > maxY) {
+        if (y < minHeight || y > maxHeight) {
             throw new IllegalArgumentException(
-                    String.format("y must be between %d and %d, got %d", minY, maxY, y)
+                    String.format("y must be between %d and %d, got %d", minHeight, maxHeight, y)
             );
         }
     }
@@ -86,20 +86,20 @@ public class Rectangle {
     public int getX() { return x; }
     public int getY() { return y; }
 
-    public static int getMinX() {
+    public static int getMinWidth() {
         validateLimitsInitialized();
-        return minX;
+        return minWidth;
     }
-    public static int getMaxX() {
+    public static int getMaxWidth() {
         validateLimitsInitialized();
-        return maxX;
+        return maxWidth;
     }
-    public static int getMinY() {
+    public static int getMinHeight() {
         validateLimitsInitialized();
-        return minY;
+        return minHeight;
     }
-    public static int getMaxY() {
+    public static int getMaxHeight() {
         validateLimitsInitialized();
-        return maxY;
+        return maxHeight;
     }
 }
