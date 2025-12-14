@@ -25,6 +25,7 @@ public static void main(String[] args) {
     for (Rectangle r : algorithm.getRectangles()) {
         r.draw();
         System.out.println();
+        System.out.println("Rectangle Area: "+r.getArea());
     }
 
     System.out.println("---------DRAW BOX----------");

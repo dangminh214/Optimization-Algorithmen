@@ -112,7 +112,7 @@ public class TestInstance {
         this.random = (seed != null) ? new Random(seed) : new Random(System.nanoTime() + instanceId);
 
         // Create square container
-        this.box = new Box(boxLength, boxLength);
+        this.box = new Box(boxLength);
 
         // Generate rectangles
         this.rectangles = generateRectangles(numRectangles);
@@ -228,10 +228,10 @@ public class TestInstance {
     private double calculatePackingDensity() {
         long totalRectangleArea = 0;
         for (Rectangle rect : rectangles) {
-            totalRectangleArea += (long) rect.getWidth() * rect.getLength();
+            totalRectangleArea += (long) rect.getWidth() * rect.getHeight();
         }
 
-        long containerArea = (long) box.getLength() * box.getWidth();
+        long containerArea = (long) box.getLength() * box.getLength();
         return (double) totalRectangleArea / containerArea;
     }
 
@@ -279,7 +279,7 @@ public class TestInstance {
     public long getTotalRectangleArea() {
         long totalArea = 0;
         for (Rectangle rect : rectangles) {
-            totalArea += (long) rect.getWidth() * rect.getLength();
+            totalArea += (long) rect.getWidth() * rect.getHeight();
         }
         return totalArea;
     }
@@ -379,7 +379,7 @@ public class TestInstance {
 
         for (Rectangle rect : rectangles) {
             int w = rect.getWidth();
-            int h = rect.getLength();
+            int h = rect.getHeight();
 
             minW = Math.min(minW, w);
             maxW = Math.max(maxW, w);
@@ -409,7 +409,7 @@ public class TestInstance {
     public String toString() {
         return String.format(
                 "TestInstance[ID=%d, Box=%dx%d, Rectangles=%d, Density=%.3f]",
-                instanceId, box.getLength(), box.getWidth(),
+                instanceId, box.getLength(), box.getLength(),
                 rectangles.size(), packingDensity
         );
     }
@@ -424,7 +424,7 @@ public class TestInstance {
         sb.append("=== Test Instance Details ===\n");
         sb.append("Instance ID: ").append(instanceId).append("\n");
         sb.append("Container: ").append(box.getLength())
-                .append("x").append(box.getWidth()).append("\n");
+                .append("x").append(box.getLength()).append("\n");
         sb.append("Number of rectangles: ").append(rectangles.size()).append("\n");
         sb.append("Rectangle size bounds: ")
                 .append(minWidth).append("-").append(maxWidth).append(" x ")
@@ -437,7 +437,7 @@ public class TestInstance {
             for (int i = 0; i < rectangles.size(); i++) {
                 Rectangle rect = rectangles.get(i);
                 sb.append(String.format("  [%2d] %3d x %-3d (Area: %5d)\n",
-                        i, rect.getWidth(), rect.getLength(), rect.getWidth() * rect.getLength()));
+                        i, rect.getWidth(), rect.getHeight(), rect.getWidth() * rect.getHeight()));
             }
         } else {
             sb.append("\n[Too many rectangles to list]\n");

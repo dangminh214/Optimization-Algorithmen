@@ -8,7 +8,7 @@ public class Rectangle {
 
     // Instance fields
     private int width;
-    private int length;
+    private int height;
     private int area;
 
     public static void initializeLimits(int userMinWidth, int userMinHeight, int userMaxWidth, int userMaxHeight) {
@@ -31,13 +31,13 @@ public class Rectangle {
     }
 
     // Constructor
-    public Rectangle(int width, int length) {
+    public Rectangle(int width, int height) {
         if (!limitsInitialized) {
             throw new IllegalStateException("Rectangle limits not initialized. Call initializeLimits() first.");
         }
         setWidth(width);
-        setLength(length);
-        this.area = width * length;
+        setHeight(height);
+        this.area = width * height;
     }
 
     // Validation methods
@@ -71,20 +71,20 @@ public class Rectangle {
         this.width = width;
 
         // recalculate area
-        this.area = width * length;
+        this.area = width * height;
     }
 
-    public void setLength(int length) {
-        validateY(length);
-        this.length = length;
+    public void setHeight(int height) {
+        validateY(height);
+        this.height = height;
 
         // recalculate area
-        this.area = width * length;
+        this.area = width * height;
     }
 
     // Getters
     public int getWidth() { return width; }
-    public int getLength() { return length; }
+    public int getHeight() { return height; }
 
     public static int getMinWidth() {
         validateLimitsInitialized();
@@ -104,10 +104,10 @@ public class Rectangle {
     }
 
     public void draw() {
-        for (int i = 0; i < this.length; i++) {          // rows
+        for (int i = 0; i < this.height; i++) {          // rows
             for (int j = 0; j < this.width; j++) {       // columns
                 // Top edge, bottom edge, left edge, right edge
-                if (i == 0 || i == this.length - 1 ||
+                if (i == 0 || i == this.height - 1 ||
                         j == 0 || j == this.width - 1) {
                     System.out.print("*");
                 } else {

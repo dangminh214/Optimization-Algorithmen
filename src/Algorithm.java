@@ -5,10 +5,12 @@ import java.util.List;
 public class Algorithm {
     private List<Rectangle> rectangles;
     private int boxLength;
+    private List<Box> boxes;
 
     public Algorithm(List<Rectangle> rectangles, int boxLength) {
         this.rectangles = sortRectanglesByAreaDesc(rectangles);
         this.boxLength = boxLength;
+        this.boxes = new ArrayList<>();
     }
 
     /**
@@ -46,5 +48,6 @@ public class Algorithm {
     }
 
     // First Fit Decreasing
+
     // Local Search Optimal to fill the left spaces
 }

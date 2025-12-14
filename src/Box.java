@@ -1,49 +1,24 @@
 import java.util.Vector;
 
 public class Box {
-    private int length;
-    private int width;
+    private final int length;
     private int area;
     private Vector<Rectangle> insideRectangles;
 
     // Constructor
-    public Box(int length, int width) {
-        setLength(length);
-        setWidth(width);
+    public Box(int length) {
+        this.length = length;
         calculateArea();
         this.insideRectangles = new Vector<>();
     }
 
-    public Box() {
-        this(0, 0);
+    public int getLength() {
+        return this.length;
     }
 
     // Calculate area based on length and width
     private void calculateArea() {
-        this.area = this.length * this.width;
-    }
-
-    // Method to add a rectangle to the box
-    public void addRectangle(Rectangle rectangle) {
-        if (rectangle == null) {
-            throw new IllegalArgumentException("Rectangle cannot be null");
-        }
-
-        // Validate rectangle fits within box limits
-        if (rectangle.getWidth() < 0 || rectangle.getWidth() > this.length ||
-                rectangle.getLength() < 0 || rectangle.getLength() > this.width) {
-            throw new IllegalArgumentException(
-                    String.format("Rectangle (x=%d, y=%d) doesn't fit in box (L=%d, W=%d)",
-                            rectangle.getWidth(), rectangle.getLength(), this.length, this.width)
-            );
-        }
-
-        insideRectangles.add(rectangle);
-    }
-
-    // Method to remove a rectangle
-    public boolean removeRectangle(Rectangle rectangle) {
-        return insideRectangles.remove(rectangle);
+        this.area = this.length * this.length;
     }
 
     // Method to remove rectangle by index
@@ -58,7 +33,7 @@ public class Box {
     public int calculateTotalRectanglesArea() {
         int totalArea = 0;
         for (Rectangle rect : insideRectangles) {
-            totalArea += (rect.getWidth() * rect.getLength());
+            totalArea += (rect.getWidth() * rect.getHeight());
         }
         return totalArea;
     }
@@ -68,103 +43,17 @@ public class Box {
         return this.area - calculateTotalRectanglesArea();
     }
 
-    // Method to check if a specific rectangle can fit in the box
-    public boolean canFitRectangle(Rectangle rectangle) {
-        if (rectangle == null) return false;
-
-        // Check if rectangle dimensions fit within box
-        return rectangle.getWidth() <= this.length && rectangle.getLength() <= this.width;
-    }
-
-    // Method to find rectangles by size
-    public Vector<Rectangle> findRectanglesBySize(int width, int height) {
-        Vector<Rectangle> result = new Vector<>();
-        for (Rectangle rect : insideRectangles) {
-            if (rect.getWidth() == width && rect.getLength() == height) {
-                result.add(rect);
-            }
-        }
-        return result;
-    }
-
-    // Method to get rectangle count
-    public int getRectangleCount() {
-        return insideRectangles.size();
-    }
-
-    // Method to clear all rectangles
-    public void clearRectangles() {
-        insideRectangles.clear();
-    }
-
-    // Getter and Setter for length with validation
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        if (length < 0) {
-            throw new IllegalArgumentException("Length cannot be negative");
-        }
-        this.length = length;
-        calculateArea(); // Recalculate area when length changes
-    }
-
-    // Getter and Setter for width with validation
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        if (width < 0) {
-            throw new IllegalArgumentException("Width cannot be negative");
-        }
-        this.width = width;
-        calculateArea(); // Recalculate area when width changes
-    }
-
-    // Getter for area (read-only, calculated automatically)
-    public int getArea() {
-        return area;
-    }
-
-    // Note: No setter for area since it's calculated from length and width
-
-    // Getter for insideRectangles
-    public Vector<Rectangle> getInsideRectangles() {
-        // Return a copy to prevent external modification
-        return new Vector<>(insideRectangles);
-    }
-
-    // Setter for insideRectangles with validation
-    public void setInsideRectangles(Vector<Rectangle> insideRectangles) {
-        if (insideRectangles == null) {
-            this.insideRectangles = new Vector<>();
-        } else {
-            // Validate all rectangles fit in the box
-            for (Rectangle rect : insideRectangles) {
-                if (!canFitRectangle(rect)) {
-                    throw new IllegalArgumentException(
-                            String.format("Rectangle (x=%d, y=%d) doesn't fit in box",
-                                    rect.getWidth(), rect.getLength())
-                    );
-                }
-            }
-            this.insideRectangles = new Vector<>(insideRectangles);
-        }
-    }
-
     // Override toString for better representation
     @Override
     public String toString() {
         return String.format("Box[L=%d, W=%d, Area=%d, Rectangles=%d, EmptyArea=%d]",
-                length, width, area, insideRectangles.size(), calculateEmptyArea());
+                length, length, area, insideRectangles.size(), calculateEmptyArea());
     }
 
     // Utility method to display box contents
     public void displayContents() {
         System.out.println("=== Box Information ===");
-        System.out.println("Dimensions: " + length + " x " + width);
+        System.out.println("Dimensions: " + length + " x " + length);
         System.out.println("Total Area: " + area);
         System.out.println("Number of Rectangles: " + insideRectangles.size());
         System.out.println("Total Rectangles Area: " + calculateTotalRectanglesArea());
@@ -175,17 +64,17 @@ public class Box {
             for (int i = 0; i < insideRectangles.size(); i++) {
                 Rectangle rect = insideRectangles.get(i);
                 System.out.printf("  [%d] Rectangle: %d x %d (Area: %d)%n",
-                        i, rect.getWidth(), rect.getLength(), rect.getWidth() * rect.getLength());
+                        i, rect.getWidth(), rect.getHeight(), rect.getWidth() * rect.getHeight());
             }
         }
     }
 
     public void draw() {
         for (int i = 0; i < this.length; i++) {          // rows
-            for (int j = 0; j < this.width; j++) {       // columns
+            for (int j = 0; j < this.length; j++) {       // columns
                 // Top edge, bottom edge, left edge, right edge
                 if (i == 0 || i == this.length - 1 ||
-                        j == 0 || j == this.width - 1) {
+                        j == 0 || j == this.length - 1) {
                     System.out.print("*");
                 } else {
                     System.out.print(" ");               // interior
