@@ -37,7 +37,7 @@ public class TestInstance {
      * The container box where rectangles must be packed.
      * Assumed to be square (length × length).
      */
-    private final Box container;
+    private final Box box;
 
     /**
      * List of rectangles to be packed into the container.
@@ -112,7 +112,7 @@ public class TestInstance {
         this.random = (seed != null) ? new Random(seed) : new Random(System.nanoTime() + instanceId);
 
         // Create square container
-        this.container = new Box(boxLength, boxLength);
+        this.box = new Box(boxLength, boxLength);
 
         // Generate rectangles
         this.rectangles = generateRectangles(numRectangles);
@@ -228,10 +228,10 @@ public class TestInstance {
     private double calculatePackingDensity() {
         long totalRectangleArea = 0;
         for (Rectangle rect : rectangles) {
-            totalRectangleArea += (long) rect.getX() * rect.getY();
+            totalRectangleArea += (long) rect.getWidth() * rect.getLength();
         }
 
-        long containerArea = (long) container.getLength() * container.getWidth();
+        long containerArea = (long) box.getLength() * box.getWidth();
         return (double) totalRectangleArea / containerArea;
     }
 
@@ -249,8 +249,8 @@ public class TestInstance {
      *
      * @return container box
      */
-    public Box getContainer() {
-        return container;
+    public Box getBox() {
+        return box;
     }
 
     /**
@@ -279,7 +279,7 @@ public class TestInstance {
     public long getTotalRectangleArea() {
         long totalArea = 0;
         for (Rectangle rect : rectangles) {
-            totalArea += (long) rect.getX() * rect.getY();
+            totalArea += (long) rect.getWidth() * rect.getLength();
         }
         return totalArea;
     }
@@ -337,7 +337,7 @@ public class TestInstance {
      * @return container side length
      */
     public int getBoxLength() {
-        return container.getLength(); // Assuming square container
+        return box.getLength(); // Assuming square container
     }
 
     /**
@@ -378,8 +378,8 @@ public class TestInstance {
         long totalWidth = 0, totalHeight = 0;
 
         for (Rectangle rect : rectangles) {
-            int w = rect.getX();
-            int h = rect.getY();
+            int w = rect.getWidth();
+            int h = rect.getLength();
 
             minW = Math.min(minW, w);
             maxW = Math.max(maxW, w);
@@ -409,7 +409,7 @@ public class TestInstance {
     public String toString() {
         return String.format(
                 "TestInstance[ID=%d, Box=%dx%d, Rectangles=%d, Density=%.3f]",
-                instanceId, container.getLength(), container.getWidth(),
+                instanceId, box.getLength(), box.getWidth(),
                 rectangles.size(), packingDensity
         );
     }
@@ -423,8 +423,8 @@ public class TestInstance {
         StringBuilder sb = new StringBuilder();
         sb.append("=== Test Instance Details ===\n");
         sb.append("Instance ID: ").append(instanceId).append("\n");
-        sb.append("Container: ").append(container.getLength())
-                .append("x").append(container.getWidth()).append("\n");
+        sb.append("Container: ").append(box.getLength())
+                .append("x").append(box.getWidth()).append("\n");
         sb.append("Number of rectangles: ").append(rectangles.size()).append("\n");
         sb.append("Rectangle size bounds: ")
                 .append(minWidth).append("-").append(maxWidth).append(" x ")
@@ -437,7 +437,7 @@ public class TestInstance {
             for (int i = 0; i < rectangles.size(); i++) {
                 Rectangle rect = rectangles.get(i);
                 sb.append(String.format("  [%2d] %3d x %-3d (Area: %5d)\n",
-                        i, rect.getX(), rect.getY(), rect.getX() * rect.getY()));
+                        i, rect.getWidth(), rect.getLength(), rect.getWidth() * rect.getLength()));
             }
         } else {
             sb.append("\n[Too many rectangles to list]\n");

@@ -7,8 +7,8 @@ public class Rectangle {
     private static boolean limitsInitialized = false;
 
     // Instance fields
-    private int x;
-    private int y;
+    private int width;
+    private int length;
     private int area;
 
     public static void initializeLimits(int userMinWidth, int userMinHeight, int userMaxWidth, int userMaxHeight) {
@@ -31,13 +31,13 @@ public class Rectangle {
     }
 
     // Constructor
-    public Rectangle(int x, int y) {
+    public Rectangle(int width, int length) {
         if (!limitsInitialized) {
             throw new IllegalStateException("Rectangle limits not initialized. Call initializeLimits() first.");
         }
-        setX(x);
-        setY(y);
-        this.area = x*y;
+        setWidth(width);
+        setLength(length);
+        this.area = width * length;
     }
 
     // Validation methods
@@ -66,25 +66,25 @@ public class Rectangle {
     }
 
     // Setters với validation
-    public void setX(int x) {
-        validateX(x);
-        this.x = x;
+    public void setWidth(int width) {
+        validateX(width);
+        this.width = width;
 
         // recalculate area
-        this.area = x*y;
+        this.area = width * length;
     }
 
-    public void setY(int y) {
-        validateY(y);
-        this.y = y;
+    public void setLength(int length) {
+        validateY(length);
+        this.length = length;
 
         // recalculate area
-        this.area = x*y;
+        this.area = width * length;
     }
 
     // Getters
-    public int getX() { return x; }
-    public int getY() { return y; }
+    public int getWidth() { return width; }
+    public int getLength() { return length; }
 
     public static int getMinWidth() {
         validateLimitsInitialized();
@@ -102,4 +102,20 @@ public class Rectangle {
         validateLimitsInitialized();
         return maxHeight;
     }
+
+    public void draw() {
+        for (int i = 0; i < this.length; i++) {          // rows
+            for (int j = 0; j < this.width; j++) {       // columns
+                // Top edge, bottom edge, left edge, right edge
+                if (i == 0 || i == this.length - 1 ||
+                        j == 0 || j == this.width - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");               // interior
+                }
+            }
+            System.out.println();
+        }
+    }
+
 }

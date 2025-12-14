@@ -30,11 +30,11 @@ public class Box {
         }
 
         // Validate rectangle fits within box limits
-        if (rectangle.getX() < 0 || rectangle.getX() > this.length ||
-                rectangle.getY() < 0 || rectangle.getY() > this.width) {
+        if (rectangle.getWidth() < 0 || rectangle.getWidth() > this.length ||
+                rectangle.getLength() < 0 || rectangle.getLength() > this.width) {
             throw new IllegalArgumentException(
                     String.format("Rectangle (x=%d, y=%d) doesn't fit in box (L=%d, W=%d)",
-                            rectangle.getX(), rectangle.getY(), this.length, this.width)
+                            rectangle.getWidth(), rectangle.getLength(), this.length, this.width)
             );
         }
 
@@ -58,7 +58,7 @@ public class Box {
     public int calculateTotalRectanglesArea() {
         int totalArea = 0;
         for (Rectangle rect : insideRectangles) {
-            totalArea += (rect.getX() * rect.getY());
+            totalArea += (rect.getWidth() * rect.getLength());
         }
         return totalArea;
     }
@@ -73,14 +73,14 @@ public class Box {
         if (rectangle == null) return false;
 
         // Check if rectangle dimensions fit within box
-        return rectangle.getX() <= this.length && rectangle.getY() <= this.width;
+        return rectangle.getWidth() <= this.length && rectangle.getLength() <= this.width;
     }
 
     // Method to find rectangles by size
     public Vector<Rectangle> findRectanglesBySize(int width, int height) {
         Vector<Rectangle> result = new Vector<>();
         for (Rectangle rect : insideRectangles) {
-            if (rect.getX() == width && rect.getY() == height) {
+            if (rect.getWidth() == width && rect.getLength() == height) {
                 result.add(rect);
             }
         }
@@ -146,7 +146,7 @@ public class Box {
                 if (!canFitRectangle(rect)) {
                     throw new IllegalArgumentException(
                             String.format("Rectangle (x=%d, y=%d) doesn't fit in box",
-                                    rect.getX(), rect.getY())
+                                    rect.getWidth(), rect.getLength())
                     );
                 }
             }
@@ -175,8 +175,23 @@ public class Box {
             for (int i = 0; i < insideRectangles.size(); i++) {
                 Rectangle rect = insideRectangles.get(i);
                 System.out.printf("  [%d] Rectangle: %d x %d (Area: %d)%n",
-                        i, rect.getX(), rect.getY(), rect.getX() * rect.getY());
+                        i, rect.getWidth(), rect.getLength(), rect.getWidth() * rect.getLength());
             }
+        }
+    }
+
+    public void draw() {
+        for (int i = 0; i < this.length; i++) {          // rows
+            for (int j = 0; j < this.width; j++) {       // columns
+                // Top edge, bottom edge, left edge, right edge
+                if (i == 0 || i == this.length - 1 ||
+                        j == 0 || j == this.width - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print(" ");               // interior
+                }
+            }
+            System.out.println();
         }
     }
 }

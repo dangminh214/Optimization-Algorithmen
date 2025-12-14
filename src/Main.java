@@ -20,4 +20,13 @@ public static void main(String[] args) {
     System.out.println("Total rectangle area: " + testInstance.getTotalRectangleArea());
     System.out.println("Packing density: " + testInstance.getPackingDensity());
 
+    System.out.println("-------DRAW RECTANGLES-----------");
+    for (Rectangle r : testInstance.getRectangles()) {
+        r.draw();
+        System.out.println();
+    }
+
+    System.out.println("---------DRAW BOX----------");
+    Box box = testInstance.getBox();
+    box.draw();
 }
