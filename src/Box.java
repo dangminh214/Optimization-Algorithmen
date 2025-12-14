@@ -2,7 +2,7 @@ import java.util.Vector;
 
 public class Box {
     private final int length;
-    private int area;
+    private int leafArea;
     private Vector<Rectangle> insideRectangles;
 
     // Constructor
@@ -18,7 +18,7 @@ public class Box {
 
     // Calculate area based on length and width
     private void calculateArea() {
-        this.area = this.length * this.length;
+        this.leafArea = this.length * this.length;
     }
 
     // Method to remove rectangle by index
@@ -40,21 +40,21 @@ public class Box {
 
     // Method to calculate remaining empty area in the box
     public int calculateEmptyArea() {
-        return this.area - calculateTotalRectanglesArea();
+        return this.leafArea - calculateTotalRectanglesArea();
     }
 
     // Override toString for better representation
     @Override
     public String toString() {
         return String.format("Box[L=%d, W=%d, Area=%d, Rectangles=%d, EmptyArea=%d]",
-                length, length, area, insideRectangles.size(), calculateEmptyArea());
+                length, length, leafArea, insideRectangles.size(), calculateEmptyArea());
     }
 
     // Utility method to display box contents
     public void displayContents() {
         System.out.println("=== Box Information ===");
         System.out.println("Dimensions: " + length + " x " + length);
-        System.out.println("Total Area: " + area);
+        System.out.println("Total Area: " + leafArea);
         System.out.println("Number of Rectangles: " + insideRectangles.size());
         System.out.println("Total Rectangles Area: " + calculateTotalRectanglesArea());
         System.out.println("Empty Area: " + calculateEmptyArea());
@@ -82,5 +82,15 @@ public class Box {
             }
             System.out.println();
         }
+    }
+
+    public void placeRectangle(Rectangle rec, int x, int y) {
+        // subtract the area
+        this.leafArea -= rec.getArea();
+
+        // add inside the box
+        this.insideRectangles.add(rec);
+
+        // calculate the position
     }
 }

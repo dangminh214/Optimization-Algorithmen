@@ -6,11 +6,13 @@ public class Algorithm {
     private List<Rectangle> rectangles;
     private int boxLength;
     private List<Box> boxes;
+    private int area;
 
     public Algorithm(List<Rectangle> rectangles, int boxLength) {
         this.rectangles = sortRectanglesByAreaDesc(rectangles);
         this.boxLength = boxLength;
         this.boxes = new ArrayList<>();
+        this.area = boxLength * boxLength;
     }
 
     /**
@@ -45,6 +47,19 @@ public class Algorithm {
     }
 
     // First Fit Decreasing
+    // just add all the rectangle to the box, see that, how many boxes needed to store all rectangles
+    public void runFFD() {
+        int sumRectangleAreas = this.rectangles.stream()
+                .mapToInt(Rectangle::getArea)
+                .sum();
+        int boxArea = boxLength*boxLength;
+        double result = (double) sumRectangleAreas / boxArea;
+        int boxesNeeded = (int) Math.ceil(result);
+        System.out.println("Number of Boxes needed (ceil): " + boxesNeeded);
+
+        //TODO: Keep process to fill all the rectangle into boxes using FFD
+    }
+
 
     // Local Search Optimal to fill the left spaces
 }
