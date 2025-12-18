@@ -116,4 +116,8 @@ public class Box {
     public boolean isEmpty() {
         return rectangles.isEmpty();
     }
+
+    public int getUsedArea() {
+        return this.usedArea;
+    }
 }

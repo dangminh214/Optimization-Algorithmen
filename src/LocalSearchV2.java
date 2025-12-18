@@ -2,14 +2,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class LocalSearch {
+public class LocalSearchV2 {
 
     private List<Rectangle> rectangles;
     private int boxLength;
     private List<Box> boxes;
     private int boxArea;
 
-    public LocalSearch(List<Rectangle> rectangles, int boxLength) {
+    public LocalSearchV2(List<Rectangle> rectangles, int boxLength) {
         this.rectangles = sortRectanglesByAreaDesc(new ArrayList<>(rectangles));
         this.boxLength = boxLength;
         this.boxes = new ArrayList<>();
@@ -36,12 +36,10 @@ public class LocalSearch {
     public void runFFD() {
         boxes.clear();
 
-        // Greedy here, pull all into the first box if they can be fit in
         for (Rectangle r : rectangles) {
             boolean placed = false;
 
             for (Box box : boxes) {
-                // check if rectangle could be fit inside the box
                 if (box.canFit(r)) {
                     box.addRectangle(r);
                     placed = true;
@@ -60,14 +58,12 @@ public class LocalSearch {
     }
 
     /**
-     * LOCAL SEARCH
-     * Try to move rectangles from one box to another
-     * Goal: eliminate boxes
+     * LOCAL SEARCH with progress bar and precise timing
      */
     public void runLocalSearch() {
 
         final int BAR_WIDTH = 30;
-        final long UPDATE_INTERVAL_NS = 100_000_000L; // 0.1s
+        final long UPDATE_INTERVAL_NS = 50_000_000L; // update every 0.05s
 
         long startTime = System.nanoTime();
         long lastUpdate = startTime;
@@ -85,13 +81,11 @@ public class LocalSearch {
 
             while (boxIterator.hasNext()) {
                 Box sourceBox = boxIterator.next();
-
                 List<Rectangle> rects = new ArrayList<>(sourceBox.getRectangles());
 
                 for (Rectangle r : rects) {
                     if (tryMoveRectangle(r, sourceBox)) {
                         improvement = true;
-
                         if (sourceBox.isEmpty()) {
                             boxIterator.remove();
                         }
@@ -102,13 +96,12 @@ public class LocalSearch {
                 if (improvement) break;
             }
 
-            // ===== Progress bar update every 0.1s =====
+            // ===== Progress bar update =====
             long now = System.nanoTime();
             if (now - lastUpdate >= UPDATE_INTERVAL_NS) {
                 lastUpdate = now;
 
                 double elapsedSec = (now - startTime) / 1_000_000_000.0;
-
                 int filled = (int) ((elapsedSec * 2) % BAR_WIDTH); // animation
                 StringBuilder bar = new StringBuilder("[");
 
@@ -117,7 +110,7 @@ public class LocalSearch {
                 }
                 bar.append("] ");
 
-                System.out.printf("\r%s%.1fs", bar, elapsedSec);
+                System.out.printf("\r%s%.4f s", bar, elapsedSec);
             }
         }
 
@@ -126,13 +119,12 @@ public class LocalSearch {
         System.out.print("\r"); // clear line
         System.out.println("Local Search finished.");
         System.out.println("Iterations: " + iteration);
-        System.out.printf("Time: %.1f s%n", totalTime);
+        System.out.printf("Time: %.4f s%n", totalTime);
         System.out.println("Boxes after Local Search: " + boxes.size());
     }
 
-
     /**
-/# /#    * Try to move rectangle r from sourceBox to another box
+     * Try to move rectangle r from sourceBox to another box
      */
     private boolean tryMoveRectangle(Rectangle r, Box sourceBox) {
         for (Box targetBox : boxes) {

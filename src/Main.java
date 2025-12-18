@@ -1,39 +1,11 @@
 public static void main(String[] args) {
-    // Create a test instance
-    TestInstance testInstance = new TestInstance(
-            1,      // instance ID
-            20,    // box length
-            10,     // number of rectangles
-            2, 10,  // min and max width
-            3, 15,  // min and max height
-            12345L  // random seed (for reproducibility)
-    );
+    TestInstance testInstance = new TestInstance(1, 20, 10, 2, 10, 3, 15, 12345L);
 
-    // Display instance information
-    System.out.println(testInstance.toString());
-    System.out.println("\nDetailed information:");
-    System.out.println(testInstance.toDetailedString());
+    Greedy greedy = new Greedy(testInstance.getRectangles(), testInstance.getBoxLength());
+    greedy.run("AREA_DESC"); // base on area desc
+    Utils.printBoxes(greedy.getBoxes());
 
-    // Get instance properties
-    System.out.println("Box length: " + testInstance.getBoxLength());
-    System.out.println("Rectangle count: " + testInstance.getRectangleCount());
-    System.out.println("Total rectangle area: " + testInstance.getTotalRectangleArea());
-    System.out.println("Packing density: " + testInstance.getPackingDensity());
-
-    System.out.println("-------DRAW RECTANGLES-----------");
-
-    LocalSearch localSearch = new LocalSearch(testInstance.getRectangles(), testInstance.getBoxLength());
-
-    // collect all the rectangles into the local search
-    for (Rectangle r : localSearch.getRectangles()) {
-        r.draw();
-        System.out.println();
-        System.out.println("Rectangle Area: "+r.getArea());
-    }
-
-    System.out.println("---------DRAW BOX----------");
-    Box box = testInstance.getBox();
-    box.draw();
-
-    localSearch.runFFD();
+    Greedy greedy2 = new Greedy(testInstance.getRectangles(), testInstance.getBoxLength());
+    greedy2.run("LENGTH_DESC"); // base on length desc
+    Utils.printBoxes(greedy2.getBoxes());
 }
