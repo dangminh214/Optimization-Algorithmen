@@ -2,7 +2,7 @@ public static void main(String[] args) {
     // Create a test instance
     TestInstance testInstance = new TestInstance(
             1,      // instance ID
-            100,    // box length
+            20,    // box length
             10,     // number of rectangles
             2, 10,  // min and max width
             3, 15,  // min and max height
