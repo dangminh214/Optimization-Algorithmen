@@ -100,6 +100,7 @@ function App(): React.ReactElement {
         onAddMultipleRectangles={addMultipleRectangles}
         onClearRectangles={clearRectangles}
         rectangles={rectangles}
+        boxSize={boxSize}
       />
 
       <RectangleList

@@ -6,13 +6,15 @@ interface RectangleInputProps {
   onAddMultipleRectangles: (rectangles: Omit<Rectangle, 'id'>[]) => void;
   onClearRectangles: () => void;
   rectangles: Rectangle[];
+  boxSize: number;
 }
 
 export const RectangleInput: React.FC<RectangleInputProps> = ({
   onAddRectangle,
   onAddMultipleRectangles,
   onClearRectangles,
-  rectangles
+  rectangles,
+  boxSize
 }) => {
   const [width, setWidth] = useState<string>('');
   const [height, setHeight] = useState<string>('');
@@ -24,7 +26,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
     const w = parseInt(width);
     const h = parseInt(height);
     
-    if (w > 0 && h > 0) {
+    if (w > 0 && h > 0 && w <= boxSize && h <= boxSize) {
       onAddRectangle({
         width: w,
         height: h,
@@ -55,9 +57,12 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
     // Generate all rectangles at once with proper unique IDs
     const rectanglesToAdd = [];
     for (let i = 0; i < count; i++) {
-      // Generate random integer dimensions between 5 and 1000
-      const randomWidth = Math.floor(Math.random() * 996) + 5;  // 5-1000
-      const randomHeight = Math.floor(Math.random() * 996) + 5; // 5-1000
+      // Generate random integer dimensions between 5 and boxSize (but max 1000)
+      const maxDimension = Math.min(boxSize, 1000);
+      const minDimension = Math.min(5, maxDimension);
+      
+      const randomWidth = Math.floor(Math.random() * (maxDimension - minDimension + 1)) + minDimension;
+      const randomHeight = Math.floor(Math.random() * (maxDimension - minDimension + 1)) + minDimension;
       
       rectanglesToAdd.push({
         width: randomWidth,
@@ -119,7 +124,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
             value={width}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWidth(e.target.value)}
             min="1"
-            max="200"
+            max={boxSize}
             placeholder="Enter width"
           />
           
@@ -129,7 +134,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
             value={height}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setHeight(e.target.value)}
             min="1"
-            max="200"
+            max={boxSize}
             placeholder="Enter height"
           />
           
@@ -185,7 +190,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
           Generate {instanceCount} Random Rectangles
         </button>
         <span style={{ fontSize: '12px', color: '#666' }}>
-          Generates rectangles with random integer dimensions (5-1000)
+          Generates rectangles with random integer dimensions (5-{Math.min(boxSize, 1000)})
         </span>
       </div>
 
