@@ -8,6 +8,7 @@ import { PackingVisualization } from './components/PackingVisualization';
 function App(): React.ReactElement {
   const [rectangles, setRectangles] = useState<Rectangle[]>([]);
   const [boxSize, setBoxSize] = useState<number>(100);
+  const [boxSizeInput, setBoxSizeInput] = useState<string>('100');
   const [result, setResult] = useState<PackingResult | null>(null);
   const [nextId, setNextId] = useState<number>(1);
 
@@ -42,9 +43,25 @@ function App(): React.ReactElement {
     setNextId(1);
   };
 
-  const handleBoxSizeChange = (newSize: number): void => {
-    setBoxSize(newSize);
-    setResult(null); // Clear previous results when box size changes
+  const handleBoxSizeChange = (value: string): void => {
+    setBoxSizeInput(value);
+    const newSize = parseInt(value);
+    if (!isNaN(newSize) && newSize >= 10 && newSize <= 500) {
+      setBoxSize(newSize);
+      setResult(null); // Clear previous results when box size changes
+    }
+  };
+
+  const handleBoxSizeBlur = (): void => {
+    const newSize = parseInt(boxSizeInput);
+    if (isNaN(newSize) || newSize < 10) {
+      setBoxSizeInput('10');
+      setBoxSize(10);
+    } else if (newSize > 500) {
+      setBoxSizeInput('500');
+      setBoxSize(500);
+    }
+    setResult(null);
   };
 
   const handleResult = (newResult: PackingResult): void => {
@@ -67,10 +84,12 @@ function App(): React.ReactElement {
           <label>Box Size (L × L):</label>
           <input
             type="number"
-            value={boxSize}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleBoxSizeChange(Math.max(10, parseInt(e.target.value) || 100))}
+            value={boxSizeInput}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleBoxSizeChange(e.target.value)}
+            onBlur={handleBoxSizeBlur}
             min="10"
             max="500"
+            placeholder="Enter box size"
           />
           <span>Current box: {boxSize} × {boxSize} (Area: {boxSize * boxSize})</span>
         </div>

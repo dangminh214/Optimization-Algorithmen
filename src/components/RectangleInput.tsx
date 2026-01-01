@@ -50,14 +50,14 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
 
   const generateRandomInstance = () => {
     const count = parseInt(instanceCount);
-    if (count <= 0 || count > 100) return;
+    if (count <= 0 || count > 500) return;
 
     // Generate all rectangles at once with proper unique IDs
     const rectanglesToAdd = [];
     for (let i = 0; i < count; i++) {
-      // Generate random integer dimensions between 5 and 80
-      const randomWidth = Math.floor(Math.random() * 76) + 5;  // 5-80
-      const randomHeight = Math.floor(Math.random() * 76) + 5; // 5-80
+      // Generate random integer dimensions between 5 and 1000
+      const randomWidth = Math.floor(Math.random() * 996) + 5;  // 5-1000
+      const randomHeight = Math.floor(Math.random() * 996) + 5; // 5-1000
       
       rectanglesToAdd.push({
         width: randomWidth,
@@ -174,18 +174,18 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
           value={instanceCount}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInstanceCount(e.target.value)}
           min="1"
-          max="100"
+          max="500"
           placeholder="Number of rectangles"
         />
         <button 
           className="button secondary" 
           onClick={generateRandomInstance}
-          disabled={parseInt(instanceCount) <= 0 || parseInt(instanceCount) > 100}
+          disabled={parseInt(instanceCount) <= 0 || parseInt(instanceCount) > 500}
         >
           Generate {instanceCount} Random Rectangles
         </button>
         <span style={{ fontSize: '12px', color: '#666' }}>
-          Generates rectangles with random integer dimensions (5-80)
+          Generates rectangles with random integer dimensions (5-1000)
         </span>
       </div>
 
