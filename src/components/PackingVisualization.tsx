@@ -3,12 +3,23 @@ import { Box, PackingResult } from '../types';
 interface PackingVisualizationProps {
   result: PackingResult | null;
   boxSize: number;
+  isRunning?: boolean;
 }
 
 export const PackingVisualization: React.FC<PackingVisualizationProps> = ({
   result,
-  boxSize
+  boxSize,
+  isRunning = false
 }) => {
+  if (isRunning) {
+    return (
+      <div className="visualization">
+        <h3>Packing Visualization</h3>
+        <p>🔄 Running algorithm... Please wait.</p>
+      </div>
+    );
+  }
+
   if (!result) {
     return (
       <div className="visualization">

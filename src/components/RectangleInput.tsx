@@ -62,7 +62,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
     const newBoxSize = parseInt(instanceBoxSize);
     
     // Validation
-    if (count <= 0 || count > 500) return;
+    if (count <= 0 || count > 1000) return;
     if (minSide <= 0 || maxSide <= 0) return;
     if (minSide > maxSide) return;
     if (newBoxSize <= 0) return;
@@ -240,7 +240,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
           className="button secondary" 
           onClick={generateRandomInstance}
           disabled={
-            parseInt(instanceCount) <= 0 || parseInt(instanceCount) > 500 ||
+            parseInt(instanceCount) <= 0 || parseInt(instanceCount) > 1000 ||
             parseInt(minSideLength) <= 0 || parseInt(maxSideLength) <= 0 ||
             parseInt(minSideLength) > parseInt(maxSideLength) ||
             parseInt(instanceBoxSize) <= 0 ||
