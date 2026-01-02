@@ -52,7 +52,7 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
 
   const generateRandomInstance = () => {
     const count = parseInt(instanceCount);
-    if (count <= 0 || count > 500) return;
+    if (count <= 0 || count > 1001) return;
 
     // Generate all rectangles at once with proper unique IDs
     const rectanglesToAdd = [];
@@ -77,40 +77,40 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
     onAddMultipleRectangles(rectanglesToAdd);
   };
 
-  const presets = {
-    small: [
-      { width: 20, height: 30 },
-      { width: 25, height: 15 },
-      { width: 30, height: 20 },
-      { width: 15, height: 25 },
-      { width: 35, height: 10 }
-    ],
-    medium: [
-      { width: 40, height: 60 },
-      { width: 50, height: 30 },
-      { width: 35, height: 45 },
-      { width: 60, height: 25 },
-      { width: 45, height: 40 },
-      { width: 30, height: 50 }
-    ],
-    large: [
-      { width: 80, height: 60 },
-      { width: 70, height: 90 },
-      { width: 90, height: 50 },
-      { width: 60, height: 80 },
-      { width: 100, height: 40 }
-    ],
-    mixed: [
-      { width: 20, height: 30 },
-      { width: 50, height: 40 },
-      { width: 80, height: 20 },
-      { width: 30, height: 70 },
-      { width: 60, height: 35 },
-      { width: 25, height: 45 },
-      { width: 90, height: 15 },
-      { width: 40, height: 60 }
-    ]
-  };
+//   const presets = {
+//     small: [
+//       { width: 20, height: 30 },
+//       { width: 25, height: 15 },
+//       { width: 30, height: 20 },
+//       { width: 15, height: 25 },
+//       { width: 35, height: 10 }
+//     ],
+//     medium: [
+//       { width: 40, height: 60 },
+//       { width: 50, height: 30 },
+//       { width: 35, height: 45 },
+//       { width: 60, height: 25 },
+//       { width: 45, height: 40 },
+//       { width: 30, height: 50 }
+//     ],
+//     large: [
+//       { width: 80, height: 60 },
+//       { width: 70, height: 90 },
+//       { width: 90, height: 50 },
+//       { width: 60, height: 80 },
+//       { width: 100, height: 40 }
+//     ],
+//     mixed: [
+//       { width: 20, height: 30 },
+//       { width: 50, height: 40 },
+//       { width: 80, height: 20 },
+//       { width: 30, height: 70 },
+//       { width: 60, height: 35 },
+//       { width: 25, height: 45 },
+//       { width: 90, height: 15 },
+//       { width: 40, height: 60 }
+//     ]
+//   };
 
   return (
     <div className="controls">
@@ -179,13 +179,13 @@ export const RectangleInput: React.FC<RectangleInputProps> = ({
           value={instanceCount}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInstanceCount(e.target.value)}
           min="1"
-          max="500"
+          max="1000"
           placeholder="Number of rectangles"
         />
         <button 
           className="button secondary" 
           onClick={generateRandomInstance}
-          disabled={parseInt(instanceCount) <= 0 || parseInt(instanceCount) > 500}
+          disabled={parseInt(instanceCount) <= 0 || parseInt(instanceCount) > 1001}
         >
           Generate {instanceCount} Random Rectangles
         </button>
